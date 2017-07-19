@@ -1,0 +1,16 @@
+{
+  "name": "humanist-bold-tagging",
+  "version": "0.0.1-dev",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "debug": "ELECTRON_ENV=dev electron ."
+  },
+  "author": "Magnus Dahlstrand <magnus@mdahlstrand.com> (http://mdahlstrand.com)",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.6.11",
+    "morphdom": "^2.3.3"
+  }
+}

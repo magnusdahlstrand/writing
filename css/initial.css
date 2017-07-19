@@ -1,0 +1,58 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.app {
+}
+
+body {
+	color: #050607;
+	font-family: 'Futura';
+	font-weight: 500;
+	font-size: 26px;
+	line-height: calc(36px * 2);
+}
+
+.row {
+	border-bottom: 1px solid transparent;
+}
+.row--divide {
+	border-bottom-color: rgba(43, 65, 76, 0.1);
+
+}
+.row:hover {
+	background: rgba(205,214,211, 0.05);
+}
+.row--divide:hover {
+	border-bottom-color: rgba(85, 86, 87, 0.1);
+}
+.row--divide:hover + .row {
+	border-bottom-color: rgba(85, 86, 87, 0.1);
+}
+.row:first-child {
+	padding-top: calc(36px * 1);
+	border-bottom: none;
+}
+.row:last-child {
+	border-bottom: none;
+}
+.row ::selection {
+	background: gold;
+}
+
+.row__content {
+	padding-left: calc(36px * 4);
+	padding-right: calc(36px * 4);
+}
+
+.item {
+	position: relative;
+	cursor: default;
+}
+
+.item--title {
+	font-size: 36px;
+	font-weight: 600;
+	line-height: calc(36px * 4);
+}
