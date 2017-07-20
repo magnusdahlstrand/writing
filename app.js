@@ -2,51 +2,102 @@ var morph = require('morphdom');
 
 var html = require('framework/html');
 var EventBus = require('framework/events');
+var stateMap = require('framework/state');
 
 var bus = new EventBus();
 
-var focus = {
+var state = stateMap({
 	title: `humanist bold`,
-	children: [
+	items: [
 		`write`,
 		`lists of lists`,
 		`#read`,
 		`#ai`,
 		`#design`
 	]
+}, (...args) => bus.emit(...args));
+
+function urlOf(item) {
+	return item.replace(/[^a-z], ''/);
 }
 
-
-function row(content) {
+function $row(content) {
 	return html`<div class="row">${content}</div>`;
 }
 
-function item(text) {
-	return html`<div class="row__content item">${text}</div>`
+function $row__middle(content) {
+	return html`
+		<div class="row__middle">${content}</div>
+	`;
 }
 
 function title(text) {
 	return html`<div class="row__content item item--title"><span>${text}</span></div>`
 }
 
-function many(items, render) {
-	return html`${items.map(render)}`
+function $item(text) {
+	return html`<div class="item" href="/${urlOf(text)}">${text}</div>`
 }
 
-function ui(data) {
-	return html`<div class="app">${[
-		row(title(data.title)),
-		...data.children.map(item).map(row)
-	]}</div>`;
+function $title(text) {
+	return html`<div class="title"><span>${text}</span></div>`
 }
 
+function $field({name, autofocus=false}) {
+	return html`<input class="field" name="${name}" ${autofocus ? 'autofocus' : ''} type="text"></input>`
+}
+
+function many(items, $view) {
+	return items.map($view)
+}
+
+function $ui(data) {
+	return html`<div class="app">${
+		[
+			$title(data.title),
+			...many(data.items, $item),
+			$field({name: 'create-item', autofocus: true}),
+		]
+		.map(data => $row($row__middle(data)))
+	}</div>`;
+}
+
+
+// Rendering
+function render(rootEl, $ui, state) {
+	$ui(state).then(content => {
+		morph(rootEl, content)
+	})
+}
+
+var rootEl = document.querySelector('.app');
+
+bus.on('change', state => render(rootEl, $ui, state));
+bus.emit('change', state);
+
+// Events
 bus.on(document, {
-	keypress: ev => console.log(ev),
-	click: ev => console.log(ev)
+	keypress: ev => {
+		console.log(ev)
+		switch(ev.key) {
+			case 'Enter':
+				if(ev.target.hasAttribute('name') && ev.target.value) {
+					bus.emit(ev.target.getAttribute('name'), ev.target.value);
+					ev.target.value = '';
+				}
+		}
+	},
+	click: ev => {
+		if(ev.target.hasAttribute('href')) {
+			console.log(ev.target.getAttribute('href'));
+			bus.emit(ev.target.getAttribute('href'))
+		}
+	}
 })
 
-var $root = document.querySelector('.app');
-
-ui(focus).then(content => {
-	morph($root, content)
+bus.on({
+	'create-item': (data) => {
+		console.log('create-item', data);
+		state.items.push(data);
+	}
 })
