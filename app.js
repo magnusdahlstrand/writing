@@ -1,8 +1,7 @@
-var morph = require('morphdom');
-
 var html = require('framework/html');
 var EventBus = require('framework/events');
 var stateMap = require('framework/state');
+var {component, render} = require('framework/view');
 
 var bus = new EventBus();
 var [on, emit] = [bus.on.bind(bus), bus.emit.bind(bus)]
@@ -90,36 +89,6 @@ function $field({submitEvent, autofocus=false}) {
 	)
 }
 
-function ensureChildNodes(root) {
-	if(root && root.childNodes && root.childNodes.length) {
-		return Promise.resolve(root);
-	}
-	return Promise.reject();
-}
-
-function firstChild(root) {
-	return ensureChildNodes(root)
-	.then(() => Promise.resolve(root.childNodes[0]));
-}
-
-function component($template, events=null) {
-	// console.log('component', $template);
-	return $template
-	.then(firstChild)
-	.then(el => {
-		console.log('has child nodes', el);
-		if(events) {
-			// TODO: We should unbind
-			on(el, events);
-			// events.init(el);
-		}
-		return Promise.resolve(el);
-	})
-	.catch(() => {
-		console.log('no child nodes');
-	})
-}
-
 function many(items, $view) {
 	return items.map($view)
 }
@@ -135,13 +104,6 @@ function $ui(data) {
 	}</div>`;
 }
 
-
-// Rendering
-function render(rootEl, $ui, state) {
-	$ui(state).then(content => {
-		morph(rootEl, content)
-	})
-}
 
 var rootEl = document.querySelector('.app');
 

@@ -10,7 +10,6 @@
   "author": "Magnus Dahlstrand <magnus@mdahlstrand.com> (http://mdahlstrand.com)",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.6.11",
-    "morphdom": "^2.3.3"
+    "electron": "^1.6.11"
   }
 }
