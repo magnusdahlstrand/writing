@@ -69,7 +69,8 @@ body {
 	position: relative;
 	font-size: 36px;
 	font-weight: 600;
-	line-height: calc(36px * 4);
+	line-height: calc(36px * 3);
+	margin: calc(36px / 2) auto;
 	transition: transform 500ms cubic-bezier(var(--sharp-in-smooth-out));
 }
 .title:hover {
