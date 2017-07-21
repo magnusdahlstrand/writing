@@ -1,3 +1,8 @@
+:root {
+	/* sharp attack, smooth end */
+	--sharp-in-smooth-out: .01,.96,.51,.94;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -47,20 +52,17 @@ body {
 }
 
 
-.item,
-.title {
-	transition: transform 40ms linear;
-}
-.item:hover,
-.title:hover {
-	transition-duration: 100ms;
-	transition-timing-function: ease-out;
-}
 .item {
+	transition: transform 40ms cubic-bezier(var(--sharp-in-smooth-out));
 	position: relative;
 }
 .item:hover {
 	transform: translateX(2px);
+	transition-duration: 100ms;
+}
+.item:active {
+	transform: translateX(5px);
+	transition-duration: 50ms;
 }
 
 .title {
@@ -68,9 +70,11 @@ body {
 	font-size: 36px;
 	font-weight: 600;
 	line-height: calc(36px * 4);
+	transition: transform 500ms cubic-bezier(var(--sharp-in-smooth-out));
 }
 .title:hover {
 	transform: translateX(-2px);
+	transition-duration: 150ms;
 }
 
 
