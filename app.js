@@ -5,6 +5,7 @@ var EventBus = require('framework/events');
 var stateMap = require('framework/state');
 
 var bus = new EventBus();
+var [on, emit] = [bus.on.bind(bus), bus.emit.bind(bus)]
 
 var state = stateMap({
 	title: `humanist bold`,
@@ -72,11 +73,11 @@ function render(rootEl, $ui, state) {
 
 var rootEl = document.querySelector('.app');
 
-bus.on('change', state => render(rootEl, $ui, state));
-bus.emit('change', state);
+on('change', state => render(rootEl, $ui, state));
+emit('change', state);
 
 // Events
-bus.on(document, {
+on(document, {
 	keypress: ev => {
 		console.log(ev)
 		switch(ev.key) {
@@ -90,12 +91,12 @@ bus.on(document, {
 	click: ev => {
 		if(ev.target.hasAttribute('href')) {
 			console.log(ev.target.getAttribute('href'));
-			bus.emit(ev.target.getAttribute('href'))
+			emit(ev.target.getAttribute('href'))
 		}
 	}
 })
 
-bus.on({
+on({
 	'create-item': (data) => {
 		console.log('create-item', data);
 		state.items.push(data);
