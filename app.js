@@ -107,9 +107,6 @@ function $ui(data) {
 
 var rootEl = document.querySelector('.app');
 
-on('change', state => render(rootEl, $ui, state));
-emit('change', state);
-
 // Events
 on(document, {
 	click: ev => {
@@ -126,3 +123,9 @@ on({
 		state.items.push(data);
 	}
 })
+
+// Re-render app on state change
+on('change', state => render(rootEl, $ui, state));
+
+// Start the app
+emit('change', state);
