@@ -90,6 +90,10 @@ body {
 	width: 100%;
 	border-bottom: 2px solid #e5e6e7;
 }
+.field:hover,
+.field:focus {
+	box-shadow: 0 5px 5px -5px rgba(0,0,0,0.1);
+}
 .field:focus {
 	outline: none;
 }
