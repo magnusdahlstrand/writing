@@ -20,21 +20,20 @@ body {
 	cursor: default;
 }
 
-.list,
-.list__items {
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	justify-content: center;
+.list {
 	display: grid;
-	grid-template-columns: auto [main] 800px auto;
+	grid-template-columns: [left-edge] auto [main] 800px auto [right-edge];
 }
 .list__head,
 .list__tail,
-.list__item,
-.list__items,
 .list__empty {
 	grid-column: main;
+}
+.list__items,
+.list__item {
+	display: grid;
+	grid-template-columns: inherit;
+	grid-column: span left-edge / right-edge;
 }
 
 .list ::selection {
@@ -55,6 +54,7 @@ body {
 .item {
 	transition: transform 40ms cubic-bezier(var(--sharp-in-smooth-out));
 	position: relative;
+	grid-column: main;
 }
 .item:hover {
 	transform: translateX(2px);
