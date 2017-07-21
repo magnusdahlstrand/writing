@@ -24,6 +24,9 @@ body {
 	display: grid;
 	grid-template-columns: [left-edge] auto [main] 800px auto [right-edge];
 }
+.list ::selection {
+	background: gold;
+}
 .list__head,
 .list__tail,
 .list__empty {
@@ -36,18 +39,14 @@ body {
 	grid-column: span left-edge / right-edge;
 }
 
-.list ::selection {
-	background: gold;
+.list__head {
+	padding-top: calc(36px * 1);
 }
 .list__items {
 	list-style: none;
 }
-.list__head {
-	padding-top: calc(36px * 1);
-	border-bottom: none;
-}
-.list__tail {
-	border-bottom: none;
+.list__item:hover {
+	background: rgba(205,214,211, 0.05);
 }
 
 
