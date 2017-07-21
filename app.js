@@ -32,8 +32,32 @@ function $row__middle(content) {
 	`;
 }
 
-function title(text) {
-	return html`<div class="row__content item item--title"><span>${text}</span></div>`
+function $list({list=[], $item=null, $head=null, $tail=null, $empty=null}) {
+	return html`
+		<div class="list">
+			${$head && html`
+				<div class="list__head">${$head}</div>
+			`}
+			${list.length && html`
+				<ul class="list__items">${
+					list.map(item => html`
+						<li class="list__item">
+							${$item && $item(item) || item}
+						</li>
+					`)
+				}</ul>
+			`}
+			${!list.length && $empty && html`
+				<ul class="list__empty">${$empty}</ul>
+			`}
+			${$tail && html`
+				<div class="list__tail">${$tail}</div>
+			`}
+		</div>
+	`;
+	// IDEA: If an item in a list has the progress symbol defined,
+	// use it as an interface to the data and build a user interface,
+	// for example a loading icon indicating when the item has been saved
 }
 
 function $item(text) {
@@ -54,12 +78,12 @@ function many(items, $view) {
 
 function $ui(data) {
 	return html`<div class="app">${
-		[
-			$title(data.title),
-			...many(data.items, $item),
-			$field({name: 'create-item', autofocus: true}),
-		]
-		.map(data => $row($row__middle(data)))
+		$list({
+			$head: $title(data.title),
+			$tail: $field({submitEvent: 'create-item', autofocus: true}),
+			list: data.items,
+			$item: $item,
+		})
 	}</div>`;
 }
 

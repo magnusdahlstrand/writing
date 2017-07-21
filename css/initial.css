@@ -15,37 +15,45 @@ body {
 	cursor: default;
 }
 
-.item {
+.list,
+.list__items {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
+	display: grid;
+	grid-template-columns: auto [main] 800px auto;
 }
-.row:hover {
-	background: rgba(205,214,211, 0.05);
+.list__head,
+.list__tail,
+.list__item,
+.list__items,
+.list__empty {
+	grid-column: main;
 }
-.row:first-child {
+
+.list ::selection {
+	background: gold;
+}
+.list__items {
+	list-style: none;
+}
+.list__head {
 	padding-top: calc(36px * 1);
 	border-bottom: none;
 }
-.row:last-child {
+.list__tail {
 	border-bottom: none;
 }
-.row ::selection {
-	background: gold;
-}
 
-.row__middle {
-	/* padding-left: calc(36px * 4);
-	padding-right: calc(36px * 4); */
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-}
 
 .item,
 .title {
-	transition: transform 300ms ease-out;
+	transition: transform 40ms linear;
 }
 .item:hover,
 .title:hover {
-	transition-duration: 50ms;
+	transition-duration: 100ms;
 	transition-timing-function: ease-out;
 }
 .item {
