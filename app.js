@@ -68,8 +68,56 @@ function $title(text) {
 	return html`<div class="title"><span>${text}</span></div>`
 }
 
-function $field({name, autofocus=false}) {
-	return html`<input class="field" name="${name}" ${autofocus ? 'autofocus' : ''} type="text"></input>`
+function $field({submitEvent, autofocus=false}) {
+	return component(
+		html`<input class="field" type="text"></input>`,
+		{
+			// TODO: Make init run on render of component,
+			// or have any event run on a component by
+			// triggering it on the data. Would the component
+			// listen to events on the data?
+			init: el => {
+				console.log('init field', el);
+				el.focus();
+			},
+			keypress: ev => {
+				if(ev.key === 'Enter') {
+					emit(submitEvent, ev.target.value);
+					ev.target.value = '';
+				}
+			}
+		}
+	)
+}
+
+function ensureChildNodes(root) {
+	if(root && root.childNodes && root.childNodes.length) {
+		return Promise.resolve(root);
+	}
+	return Promise.reject();
+}
+
+function firstChild(root) {
+	return ensureChildNodes(root)
+	.then(() => Promise.resolve(root.childNodes[0]));
+}
+
+function component($template, events=null) {
+	// console.log('component', $template);
+	return $template
+	.then(firstChild)
+	.then(el => {
+		console.log('has child nodes', el);
+		if(events) {
+			// TODO: We should unbind
+			on(el, events);
+			// events.init(el);
+		}
+		return Promise.resolve(el);
+	})
+	.catch(() => {
+		console.log('no child nodes');
+	})
 }
 
 function many(items, $view) {
@@ -102,16 +150,6 @@ emit('change', state);
 
 // Events
 on(document, {
-	keypress: ev => {
-		console.log(ev)
-		switch(ev.key) {
-			case 'Enter':
-				if(ev.target.hasAttribute('name') && ev.target.value) {
-					bus.emit(ev.target.getAttribute('name'), ev.target.value);
-					ev.target.value = '';
-				}
-		}
-	},
 	click: ev => {
 		if(ev.target.hasAttribute('href')) {
 			console.log(ev.target.getAttribute('href'));
