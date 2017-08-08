@@ -21,16 +21,6 @@ function urlOf(item) {
 	return item.replace(/[^a-z], ''/);
 }
 
-function $row(content) {
-	return html`<div class="row">${content}</div>`;
-}
-
-function $row__middle(content) {
-	return html`
-		<div class="row__middle">${content}</div>
-	`;
-}
-
 function $list({list=[], $item=null, $head=null, $tail=null, $empty=null}) {
 	return html`
 		<div class="list">
