@@ -7,7 +7,7 @@ var bus = new EventBus();
 var [on, emit] = [bus.on.bind(bus), bus.emit.bind(bus)]
 
 var state = stateMap({
-	title: `humanist bold`,
+	title: `writing`,
 	items: [
 		`write`,
 		`lists of lists`,

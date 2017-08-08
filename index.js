@@ -11,7 +11,7 @@ var defaultWindowOpts = {
 	height: 820,
 	frame: false,
 	center: true,
-	title: 'humanist-bold',
+	title: 'writing',
 	titleBarStyle: 'hidden-inset',
 	acceptFirstMouse: true,
 	hasShadow: true,
